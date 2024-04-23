@@ -7,18 +7,18 @@ const gameboardSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-gameboardSchema.virtual('characters', {
-  ref: 'Character',        
-  localField: '_id',       
-  foreignField: 'gameboard', 
-  justOne: false          
+gameboardSchema.virtual("characters", {
+  ref: "Character",
+  localField: "_id",
+  foreignField: "gameboard",
+  justOne: false,
 });
 
-gameboardSchema.virtual('leaderboard', {
-  ref: 'Score',        
-  localField: '_id',       
-  foreignField: 'gameboard', 
-  justOne: false          
+gameboardSchema.virtual("leaderboard", {
+  ref: "Score",
+  localField: "_id",
+  foreignField: "gameboard",
+  justOne: false,
 });
 
 export default mongoose.model("Gameboard", gameboardSchema);

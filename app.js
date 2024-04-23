@@ -7,8 +7,8 @@ import debug from "debug";
 import dotenv from "dotenv";
 dotenv.config();
 
-import indexRouter from "./routes/index"
-import usersRouter from "./routes/users"
+import indexRouter from "./routes/index";
+import usersRouter from "./routes/users";
 
 // Setup mongoDB connection
 import mongoose from "mongoose";
@@ -46,4 +46,4 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
 });
 
-export default app
+export default app;

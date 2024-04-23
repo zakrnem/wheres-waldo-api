@@ -61,37 +61,40 @@ async function createCharacters() {
 
 async function gameboardCreate(index, name, img) {
   const newGameboard = {
-    name, img,
-  }
-  const gameboard = new Gameboard(newGameboard)
-  await gameboard.save()
-  gameboards[index] = gameboard
-  console.log(`Added gameboard ${name} with image: ${img}`)
+    name,
+    img,
+  };
+  const gameboard = new Gameboard(newGameboard);
+  await gameboard.save();
+  gameboards[index] = gameboard;
+  console.log(`Added gameboard ${name} with image: ${img}`);
 }
 
 async function createGameboards() {
-  console.log("Creating gameboards")
-  await Promise.all([
-    gameboardCreate(0, "downtown", "waldo-downtown.png")
-  ])
+  console.log("Creating gameboards");
+  await Promise.all([gameboardCreate(0, "downtown", "waldo-downtown.png")]);
 }
 
-async function scoreCreate (index, gameboard, user, seconds) {
+async function scoreCreate(index, gameboard, user, seconds) {
   const newScore = {
-    gameboard, user, seconds,
-  }
-  const score = new Score(newScore)
-  await score.save()
-  scores[index] = score
-  console.log(`Added score for gameboard: ${gameboard}, with username: ${user} and elapsed time: ${seconds}`)
+    gameboard,
+    user,
+    seconds,
+  };
+  const score = new Score(newScore);
+  await score.save();
+  scores[index] = score;
+  console.log(
+    `Added score for gameboard: ${gameboard}, with username: ${user} and elapsed time: ${seconds}`,
+  );
 }
 
 async function createScores() {
-  console.log("Adding scores")
+  console.log("Adding scores");
   await Promise.all([
     scoreCreate(0, gameboards[0], "Test 1", "300"),
     scoreCreate(0, gameboards[0], "Test 2", "180"),
     scoreCreate(0, gameboards[0], "Test 3", "30"),
-    scoreCreate(0, gameboards[0], "Test 4", "430")
-  ])
+    scoreCreate(0, gameboards[0], "Test 4", "430"),
+  ]);
 }
