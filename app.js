@@ -4,6 +4,8 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import debug from "debug";
+import cors from "cors";
+import session from "express-session";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -23,6 +25,28 @@ async function main() {
 }
 
 const app = express();
+
+const corsOptions = {
+  origin: process.env.FRONT_END_URL,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+const secret = process.env.SESSION_SECRET;
+const maxAge = process.env.MAX_AGE;
+app.use(
+  session({
+    secret: secret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      name: "session-cookie",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: maxAge * 60 * 1000,
+    },
+  }),
+);
 
 app.use(logger("dev"));
 app.use(express.json());
