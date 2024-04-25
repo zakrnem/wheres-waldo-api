@@ -11,6 +11,7 @@ const start_time = asyncHandler(async (req, res) => {
     res.status(400).json({ message: "Timer already started" });
   } else {
     req.session.timeStart = Date.now();
+    req.session.gameboard = req.params.id
     res.cookie("session-cookie", req.sessionID, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: false,

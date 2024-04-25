@@ -36,4 +36,8 @@ const gameboard_get = asyncHandler(async (req, res) => {
   }
 });
 
-export default { gameboards_get, gameboard_get };
+const game_move = asyncHandler(async (req, res) => {
+  res.status(200).json(req.params)
+})
+
+export default { gameboards_get, gameboard_get, game_move };
