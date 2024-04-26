@@ -38,15 +38,15 @@ const gameboard_get = asyncHandler(async (req, res) => {
 
 const game_move = asyncHandler(async (req, res) => {
   const character = await Character.findById(req.body.character);
-  const dbCoordinates = JSON.stringify(character.coordinates);
-  const userCoordinates = JSON.stringify(req.body.coordinates);
   const gameboardEqual = String(req.params.id) === String(character.gameboard);
-  const coordinatesEqual = dbCoordinates === userCoordinates;
+  const deltaX = Number(character.coordinates[0]) - Number(req.body.coordinates[0])
+  const deltaY = Number(character.coordinates[1]) - Number(req.body.coordinates[1])
+  const coordinatesMatch = deltaX < 10 && deltaY < 10
 
-  if (gameboardEqual && coordinatesEqual) {
+  if (gameboardEqual && coordinatesMatch) {
     res.status(200).json({ message: "You hit the target" });
   } else {
-    res.status(400).json({ message: "You missed the target" });
+    res.status(400).json({ message: "You missed the target", deltaX, deltaY });
   }
 });
 
