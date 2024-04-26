@@ -11,7 +11,7 @@ const start_time = asyncHandler(async (req, res) => {
     res.status(400).json({ message: "Timer already started" });
   } else {
     req.session.timeStart = Date.now();
-    req.session.gameboard = req.params.id
+    req.session.gameboard = req.params.id;
     res.cookie("session-cookie", req.sessionID, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: false,
@@ -25,10 +25,13 @@ const end_time = asyncHandler(async (req, res) => {
   if (!req.session.timeStart) {
     res.status(400).json({ message: "Timer not started" });
   } else {
-    const elapsedTime = (Date.now() - req.session.timeStart) / 1000
+    const elapsedTime = (Date.now() - req.session.timeStart) / 1000;
     req.session.destroy();
     res.clearCookie("session-cookie");
-    res.status(200).send({ message: `Elapsed time: ${elapsedTime} seconds`, time: elapsedTime });
+    res.status(200).send({
+      message: `Elapsed time: ${elapsedTime} seconds`,
+      time: elapsedTime,
+    });
   }
 });
 

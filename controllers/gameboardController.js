@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Gameboard from "../models/gameboard";
 import mongoose from "mongoose";
-import character from "../models/character";
+import Character from "../models/character";
 
 const gameboards_get = asyncHandler(async (req, res) => {
   try {
@@ -37,7 +37,17 @@ const gameboard_get = asyncHandler(async (req, res) => {
 });
 
 const game_move = asyncHandler(async (req, res) => {
-  res.status(200).json(req.params)
-})
+  const character = await Character.findById(req.body.character);
+  const dbCoordinates = JSON.stringify(character.coordinates);
+  const userCoordinates = JSON.stringify(req.body.coordinates);
+  const gameboardEqual = String(req.params.id) === String(character.gameboard);
+  const coordinatesEqual = dbCoordinates === userCoordinates;
+
+  if (gameboardEqual && coordinatesEqual) {
+    res.status(200).json({ message: "You hit the target" });
+  } else {
+    res.status(400).json({ message: "You missed the target" });
+  }
+});
 
 export default { gameboards_get, gameboard_get, game_move };
