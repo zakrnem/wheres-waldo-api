@@ -35,4 +35,16 @@ const end_time = asyncHandler(async (req, res) => {
   }
 });
 
-export default { check_auth, start_time, end_time };
+const get_time = asyncHandler(async (req, res) => {
+  if (!req.session.timeStart) {
+    return res.status(400).json({ message: "Timer not started" });
+  } else {
+    const elapsedTime = (Date.now() - req.session.timeStart) / 1000;
+    res.status(200).send({
+      message: `Elapsed time: ${elapsedTime} seconds`,
+      time: elapsedTime,
+    });
+  }
+})
+
+export default { check_auth, start_time, end_time, get_time };
