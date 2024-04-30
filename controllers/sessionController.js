@@ -8,7 +8,7 @@ const check_auth = asyncHandler(async (req, res) => {
 const start_time = asyncHandler(async (req, res) => {
   const maxAge = process.env.MAX_AGE;
   if (req.session.timeStart) {
-    res.status(400).json({ message: "Timer already started" });
+    return res.status(400).json({ message: "Timer already started" });
   } else {
     req.session.timeStart = Date.now();
     req.session.gameboard = req.params.id;
@@ -23,7 +23,7 @@ const start_time = asyncHandler(async (req, res) => {
 
 const end_time = asyncHandler(async (req, res) => {
   if (!req.session.timeStart) {
-    res.status(400).json({ message: "Timer not started" });
+    return res.status(400).json({ message: "Timer not started" });
   } else {
     const elapsedTime = (Date.now() - req.session.timeStart) / 1000;
     req.session.destroy();
