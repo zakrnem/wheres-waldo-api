@@ -39,14 +39,23 @@ const gameboard_get = asyncHandler(async (req, res) => {
 const game_move = asyncHandler(async (req, res) => {
   const character = await Character.findById(req.body.character);
   const gameboardEqual = String(req.params.id) === String(character.gameboard);
-  const deltaX = Number(character.coordinates[0]) - Number(req.body.coordinates[0])
-  const deltaY = Number(character.coordinates[1]) - Number(req.body.coordinates[1])
-  const coordinatesMatch = deltaX < 10 && deltaY < 10
+  const deltaX = Math.abs(
+    Number(character.coordinates[0]) - Number(req.body.coordinates[0]),
+  );
+  const deltaY = Math.abs(
+    Number(character.coordinates[1]) - Number(req.body.coordinates[1]),
+  );
+  const variance = 3;
+  const coordinatesMatch = deltaX < variance && deltaY < variance;
 
   if (gameboardEqual && coordinatesMatch) {
     res.status(200).json({ message: "You hit the target" });
-  } else {
+  } else if (gameboardEqual) {
     res.status(400).json({ message: "You missed the target", deltaX, deltaY });
+  } else {
+    res
+      .status(401)
+      .json({ message: "The gameboard Id doesn't match the session cookie" });
   }
 });
 

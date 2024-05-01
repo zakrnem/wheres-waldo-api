@@ -45,6 +45,6 @@ const get_time = asyncHandler(async (req, res) => {
       time: elapsedTime,
     });
   }
-})
+});
 
 export default { check_auth, start_time, end_time, get_time };
