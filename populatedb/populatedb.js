@@ -52,10 +52,10 @@ async function characterCreate(index, name, img, gameboard, coordinates) {
 async function createCharacters() {
   console.log("Adding characters into gameboard");
   await Promise.all([
-    characterCreate(0, "Waldo", "waldo.png", gameboards[0], [50, 50]),
-    characterCreate(1, "Wenda", "wenda.png", gameboards[0], [30, 30]),
-    characterCreate(2, "Odlaw", "odlaw.png", gameboards[0], [60, 60]),
-    characterCreate(0, "Wizard", "wizard.png", gameboards[0], [70, 70]),
+    characterCreate(0, "Waldo", "waldo.png", gameboards[0], [15, 72]),
+    characterCreate(1, "Wenda", "wenda.png", gameboards[0], [15, 56]),
+    characterCreate(2, "Odlaw", "odlaw.png", gameboards[0], [38, 92]),
+    characterCreate(0, "Wizard", "wizard.png", gameboards[0], [49, 73]),
   ]);
 }
 
