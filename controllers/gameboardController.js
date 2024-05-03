@@ -52,10 +52,11 @@ const game_move = asyncHandler(async (req, res) => {
 
   const sessionId = req.sessionID;
   if (gameboardEqual && coordinatesMatch) {
-    save_state(sessionId, req.params.id, req.body.character);
-    console.log(gameState);
-
-    res.status(200).json({ message: "You hit the target" });
+    const gameover = save_state(sessionId, req.params.id, req.body.character);
+    if (gameover) {
+      res.status(201).json({ message: "You won the game" });
+    }
+    res.status(202).json({ message: "You hit the target" });
   } else if (gameboardEqual) {
     res.status(400).json({ message: "You missed the target", deltaX, deltaY });
   } else {
@@ -69,15 +70,18 @@ let gameState = {};
 const save_state = (sessionId, gameboardId, characterId) => {
   if (gameState[sessionId] === undefined) {
     gameState[sessionId] = {
-      "gameboard": gameboardId,
-      "character": [characterId],
+      gameboard: gameboardId,
+      character: [characterId],
     };
+  } else if (gameState[sessionId].character.length > 2) {
+    return true;
   } else {
-    const alreadyExists = gameState[sessionId].character.find((el) => el === characterId)
+    const alreadyExists = gameState[sessionId].character.find(
+      (el) => el === characterId,
+    );
     if (!alreadyExists) {
-      gameState[sessionId].character.push(characterId)
+      gameState[sessionId].character.push(characterId);
     }
-    
   }
 };
 
