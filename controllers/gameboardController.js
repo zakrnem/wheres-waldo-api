@@ -2,6 +2,8 @@ import asyncHandler from "express-async-handler";
 import Gameboard from "../models/gameboard";
 import mongoose from "mongoose";
 import Character from "../models/character";
+import session from "express-session";
+import character from "../models/character";
 
 const gameboards_get = asyncHandler(async (req, res) => {
   try {
@@ -48,7 +50,11 @@ const game_move = asyncHandler(async (req, res) => {
   const variance = 3;
   const coordinatesMatch = deltaX < variance && deltaY < variance;
 
+  const sessionId = req.sessionID;
   if (gameboardEqual && coordinatesMatch) {
+    save_state(sessionId, req.params.id, req.body.character);
+    console.log(gameState);
+
     res.status(200).json({ message: "You hit the target" });
   } else if (gameboardEqual) {
     res.status(400).json({ message: "You missed the target", deltaX, deltaY });
@@ -58,5 +64,21 @@ const game_move = asyncHandler(async (req, res) => {
       .json({ message: "The gameboard Id doesn't match the session cookie" });
   }
 });
+
+let gameState = {};
+const save_state = (sessionId, gameboardId, characterId) => {
+  if (gameState[sessionId] === undefined) {
+    gameState[sessionId] = {
+      "gameboard": gameboardId,
+      "character": [characterId],
+    };
+  } else {
+    const alreadyExists = gameState[sessionId].character.find((el) => el === characterId)
+    if (!alreadyExists) {
+      gameState[sessionId].character.push(characterId)
+    }
+    
+  }
+};
 
 export default { gameboards_get, gameboard_get, game_move };
