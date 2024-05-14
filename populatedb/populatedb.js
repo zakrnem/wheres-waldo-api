@@ -92,9 +92,9 @@ async function scoreCreate(index, gameboard, user, seconds) {
 async function createScores() {
   console.log("Adding scores");
   await Promise.all([
-    scoreCreate(0, gameboards[0], "Test 1", "300"),
-    scoreCreate(0, gameboards[0], "Test 2", "180"),
-    scoreCreate(0, gameboards[0], "Test 3", "30"),
-    scoreCreate(0, gameboards[0], "Test 4", "430"),
+    scoreCreate(0, gameboards[0], "User 1", "300"),
+    scoreCreate(0, gameboards[0], "User 2", "180"),
+    scoreCreate(0, gameboards[0], "User 3", "30"),
+    scoreCreate(0, gameboards[0], "User 4", "430"),
   ]);
 }
