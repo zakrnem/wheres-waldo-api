@@ -39,6 +39,7 @@ const gameboard_get = asyncHandler(async (req, res) => {
 });
 
 const game_move = asyncHandler(async (req, res) => {
+  console.log("Gamemove character: ", req.body.character)
   const character = await Character.findById(req.body.character);
   const gameboardEqual = String(req.params.id) === String(character.gameboard);
   const deltaX = Math.abs(
@@ -49,7 +50,7 @@ const game_move = asyncHandler(async (req, res) => {
   );
   const variance = 3;
   const coordinatesMatch = deltaX < variance && deltaY < variance;
-
+  console.log("Gameboard equal ", gameboardEqual, "Coordinates match ", coordinatesMatch)
   const sessionId = req.sessionID;
   if (gameboardEqual && coordinatesMatch) {
     const gameover = save_state(sessionId, req.params.id, req.body.character);
@@ -76,6 +77,7 @@ const save_state = (sessionId, gameboardId, characterId) => {
   } else if (gameState[sessionId].character.length > 2) {
     return true;
   } else {
+    console.log("#Prev sucess: ", gameState[sessionId].character.length)
     const alreadyExists = gameState[sessionId].character.find(
       (el) => el === characterId,
     );

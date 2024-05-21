@@ -25,4 +25,9 @@ const scores_get = asyncHandler(async (req, res) => {
   }
 });
 
-export default { scores_get };
+const score_save = asyncHandler(async (req, res) => {
+  console.log("Score save: ")
+  return
+})
+
+export default { scores_get, score_save };
