@@ -49,10 +49,9 @@ const game_move = asyncHandler(async (req, res) => {
   );
   const variance = 3;
   const coordinatesMatch = deltaX < variance && deltaY < variance;
-
-  const sessionId = req.sessionID;
+  
   if (gameboardEqual && coordinatesMatch) {
-    const gameover = save_state(sessionId, req.params.id, req.body.character);
+    const gameover = save_state(req.sessionID, req.params.id, req.body.character);
     if (gameover) {
       res.status(201).json({ message: "You won the game" });
     }
@@ -73,15 +72,16 @@ const save_state = (sessionId, gameboardId, characterId) => {
       gameboard: gameboardId,
       character: [characterId],
     };
-  } else if (gameState[sessionId].character.length > 2) {
-    return true;
   } else {
-    const alreadyExists = gameState[sessionId].character.find(
+    const alreadyExists = gameState[sessionId].character.some(
       (el) => el === characterId,
     );
     if (!alreadyExists) {
       gameState[sessionId].character.push(characterId);
     }
+    if (gameState[sessionId].character.length > 3) {
+      return true;
+    } 
   }
 };
 

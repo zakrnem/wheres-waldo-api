@@ -15,6 +15,8 @@ router.get("/character/:id", character_controller.character_get);
 
 router.get("/gameboards/:id/scores", score_controller.scores_get);
 
+router.post("/gameboards/:id/score", score_controller.score_save);
+
 router.post("/gameboards/:id/start", session_controller.start_time);
 
 router.post("/gameboards/:id/current", session_controller.get_time);

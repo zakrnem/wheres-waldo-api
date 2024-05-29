@@ -25,4 +25,20 @@ const scores_get = asyncHandler(async (req, res) => {
   }
 });
 
-export default { scores_get };
+const score_save = asyncHandler(async (req, res) => {
+  const newScore = {
+    gameboard: req.params.id,
+    user: req.body.user,
+    seconds: req.body.time,
+  }
+
+  try {
+    const score = new Score(newScore);
+    await score.save();
+    res.status(200).json({ newScore });
+  } catch (error) {
+    res.status(500).json({error: error.message})
+  }
+})
+
+export default { scores_get, score_save };
