@@ -39,6 +39,7 @@ const gameboard_get = asyncHandler(async (req, res) => {
 });
 
 const game_move = asyncHandler(async (req, res) => {
+  console.log("Gamemove character: ", req.body.character)
   const character = await Character.findById(req.body.character);
   const gameboardEqual = String(req.params.id) === String(character.gameboard);
   const deltaX = Math.abs(
