@@ -6,7 +6,7 @@ import { format } from "date-fns";
 const scores_get = asyncHandler(async (req, res) => {
   try {
     const scores = await Score.find({ gameboard: req.params.id }).sort({
-      seconds: -1,
+      seconds: 1,
     });
     for (const key of Object.keys(scores)) {
       const parsedDate = new Date(scores[key].date);
