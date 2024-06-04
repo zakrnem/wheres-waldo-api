@@ -1,9 +1,9 @@
 import asyncHandler from "express-async-handler";
-import Gameboard from "../models/gameboard";
+import Gameboard from "../models/gameboard.js";
 import mongoose from "mongoose";
-import Character from "../models/character";
+import Character from "../models/character.js";
 import session from "express-session";
-import character from "../models/character";
+import character from "../models/character.js";
 
 const gameboards_get = asyncHandler(async (req, res) => {
   try {

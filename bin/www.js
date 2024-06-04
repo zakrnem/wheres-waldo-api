@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-import app from "../app";
+import app from "../app.js";
 import debugLib from "debug";
 const debug = debugLib("blogapi:server");
 import http from "http";
@@ -27,7 +27,7 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, '0.0.0.0');
 server.on("error", onError);
 server.on("listening", onListening);
 

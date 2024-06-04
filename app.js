@@ -9,8 +9,8 @@ import session from "express-session";
 import dotenv from "dotenv";
 dotenv.config();
 
-import indexRouter from "./routes/index";
-import usersRouter from "./routes/users";
+import indexRouter from "./routes/index.js";
+import usersRouter from "./routes/users.js";
 
 // Setup mongoDB connection
 import mongoose from "mongoose";
@@ -33,17 +33,15 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-const secret = process.env.SESSION_SECRET;
-const maxAge = process.env.MAX_AGE;
 app.use(
   session({
-    secret: secret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
       name: "session-cookie",
       secure: process.env.NODE_ENV === "production",
-      maxAge: maxAge * 60 * 1000,
+      maxAge: process.env.MAX_AGE * 60 * 1000,
     },
   }),
 );
@@ -52,7 +50,18 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+import { fileURLToPath } from 'url';
+
+// This gives the current file's path
+const __filename = fileURLToPath(import.meta.url);
+
+// This gives the directory name of the current file
+const __dirname = path.dirname(__filename);
+
+// Rest of your code
 app.use(express.static(path.join(__dirname, "public")));
+
 
 app.use("/", indexRouter);
 app.use("/api/", usersRouter);

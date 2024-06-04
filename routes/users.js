@@ -1,9 +1,9 @@
 import express from "express";
 const router = express.Router();
-import character_controller from "../controllers/characterController";
-import gameboard_controller from "../controllers/gameboardController";
-import score_controller from "../controllers/scoreController";
-import session_controller from "../controllers/sessionController";
+import character_controller from "../controllers/characterController.js";
+import gameboard_controller from "../controllers/gameboardController.js";
+import score_controller from "../controllers/scoreController.js";
+import session_controller from "../controllers/sessionController.js";
 
 router.get("/gameboards", gameboard_controller.gameboards_get);
 

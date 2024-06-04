@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Character from "../models/character";
+import Character from "../models/character.js";
 import mongoose from "mongoose";
 
 const characters_get = asyncHandler(async (req, res) => {

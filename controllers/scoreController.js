@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Score from "../models/score";
+import Score from "../models/score.js";
 import mongoose from "mongoose";
 import { format } from "date-fns";
 
