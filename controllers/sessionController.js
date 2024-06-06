@@ -7,16 +7,27 @@ const check_auth = asyncHandler(async (req, res) => {
 
 const start_time = asyncHandler(async (req, res) => {
   const maxAge = process.env.MAX_AGE;
+
   if (req.session.timeStart) {
     return res.status(400).json({ message: "Timer already started" });
   } else {
     req.session.timeStart = Date.now();
     req.session.gameboard = req.params.id;
-    res.cookie("session-cookie", req.sessionID, {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: false,
-      maxAge: maxAge * 60 * 1000,
-    });
+
+    try {
+      res.cookie("session-cookie", req.sessionID, {
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+        sameSite: 'None',
+        path: '/api',
+        maxAge: maxAge * 60 * 1000,
+      });
+    } catch (error) {
+      console.error("Error setting session cookie:", error);
+      return res.status(500).json({ message: "Error setting session cookie" });
+    }
+    
+    console.log("Sending response");
     res.status(200).json({ message: `Timer started sucesfully` });
   }
 });

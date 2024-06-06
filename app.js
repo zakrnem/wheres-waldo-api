@@ -35,15 +35,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Middleware to log incoming requests
-app.use((req, res, next) => {
-  console.log(`Request Method: ${req.method}`);
-  console.log(`Request URL: ${req.url}`);
-  console.log(`Request Headers: ${JSON.stringify(req.headers)}`);
-  next();
-});
-
 app.options('*', cors());  // Handle preflight requests
+
+console.log("New version")
 
 app.use(
   session({
@@ -53,6 +47,7 @@ app.use(
     cookie: {
       name: "session-cookie",
       secure: process.env.NODE_ENV === "production",
+      sameSite: 'None', 
       maxAge: process.env.MAX_AGE * 60 * 1000,
     },
   }),
