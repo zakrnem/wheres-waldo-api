@@ -28,10 +28,22 @@ const app = express();
 
 const corsOptions = {
   origin: process.env.FRONT_END_URL,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 
 app.use(cors(corsOptions));
+
+// Middleware to log incoming requests
+app.use((req, res, next) => {
+  console.log(`Request Method: ${req.method}`);
+  console.log(`Request URL: ${req.url}`);
+  console.log(`Request Headers: ${JSON.stringify(req.headers)}`);
+  next();
+});
+
+app.options('*', cors());  // Handle preflight requests
 
 app.use(
   session({
